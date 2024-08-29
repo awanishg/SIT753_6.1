@@ -13,9 +13,9 @@ pipeline {
                 script {
                     STAGE_NAME = "Build"
                 }
-                echo "Building the project using Maven"
-                // Example Maven build command
-                sh 'mvn clean install'
+                echo "Stage: Build - Task: Compile and package the code using a build automation tool."
+                echo "Tool: Maven"
+                // Placeholder for actual build command, e.g., sh 'mvn clean install'
             }
             post {
                 failure {
@@ -32,14 +32,14 @@ pipeline {
                 script {
                     STAGE_NAME = "Unit and Integration Tests"
                 }
-                echo "Running unit and integration tests using JUnit and Selenium"
-                // Example command to run tests
-                sh 'mvn test'
+                echo "Stage: Unit and Integration Tests - Task: Run unit tests to ensure code functions as expected, and run integration tests to ensure different components work together."
+                echo "Tools: JUnit for unit tests, Selenium for integration tests"
+                // Placeholder for actual test command, e.g., sh 'mvn test'
             }
             post {
                 success {
                     emailext(
-                        to: 'your-email@example.com',
+                        to: 'awanishg444@gmail.com',
                         subject: "Stage ${STAGE_NAME} - ${BUILD_STATUS}",
                         body: "The ${STAGE_NAME} stage has ${BUILD_STATUS}.",
                         attachLog: true
@@ -50,7 +50,7 @@ pipeline {
                         BUILD_STATUS = "FAILURE"
                     }
                     emailext(
-                        to: 'your-email@example.com',
+                        to: 'awanishg444@gmail.com',
                         subject: "Stage ${STAGE_NAME} - ${BUILD_STATUS}",
                         body: "The ${STAGE_NAME} stage has failed. Please check the attached logs.",
                         attachLog: true
@@ -64,9 +64,9 @@ pipeline {
                 script {
                     STAGE_NAME = "Code Analysis"
                 }
-                echo "Performing code analysis using SonarQube"
-                // Example SonarQube analysis command
-                sh 'mvn sonar:sonar'
+                echo "Stage: Code Analysis - Task: Analyze the code to ensure it meets industry standards."
+                echo "Tool: SonarQube"
+                // Placeholder for actual code analysis command, e.g., sh 'mvn sonar:sonar'
             }
             post {
                 failure {
@@ -83,14 +83,14 @@ pipeline {
                 script {
                     STAGE_NAME = "Security Scan"
                 }
-                echo "Conducting a security scan using OWASP ZAP"
-                // Example OWASP ZAP command
-                sh 'zap-cli quick-scan --self-contained --start-options "-config api.disablekey=true" http://your-app-url'
+                echo "Stage: Security Scan - Task: Perform a security scan to identify vulnerabilities."
+                echo "Tool: OWASP ZAP"
+                // Placeholder for actual security scan command, e.g., sh 'zap-cli quick-scan --self-contained --start-options "-config api.disablekey=true" http://your-app-url'
             }
             post {
                 success {
                     emailext(
-                        to: 'your-email@example.com',
+                        to: 'awanishg444@gmail.com',
                         subject: "Stage ${STAGE_NAME} - ${BUILD_STATUS}",
                         body: "The ${STAGE_NAME} stage has ${BUILD_STATUS}.",
                         attachLog: true
@@ -101,7 +101,7 @@ pipeline {
                         BUILD_STATUS = "FAILURE"
                     }
                     emailext(
-                        to: 'your-email@example.com',
+                        to: 'awanishg444@gmail.com',
                         subject: "Stage ${STAGE_NAME} - ${BUILD_STATUS}",
                         body: "The ${STAGE_NAME} stage has failed. Please check the attached logs.",
                         attachLog: true
@@ -115,9 +115,9 @@ pipeline {
                 script {
                     STAGE_NAME = "Deploy to Staging"
                 }
-                echo "Deploying the application to the staging environment"
-                // Example deployment command
-                sh 'scp target/your-app.jar user@staging-server:/path/to/deploy'
+                echo "Stage: Deploy to Staging - Task: Deploy the application to a staging server."
+                echo "Tool: AWS EC2"
+                // Placeholder for actual deployment command, e.g., sh 'scp target/your-app.jar user@staging-server:/path/to/deploy'
             }
             post {
                 failure {
@@ -134,9 +134,9 @@ pipeline {
                 script {
                     STAGE_NAME = "Integration Tests on Staging"
                 }
-                echo "Running integration tests on the staging environment"
-                // Example integration tests command
-                sh 'mvn verify -Pstaging'
+                echo "Stage: Integration Tests on Staging - Task: Run integration tests on the staging environment."
+                echo "Tools: JUnit, Selenium"
+                // Placeholder for actual integration tests command, e.g., sh 'mvn verify -Pstaging'
             }
             post {
                 failure {
@@ -153,9 +153,9 @@ pipeline {
                 script {
                     STAGE_NAME = "Deploy to Production"
                 }
-                echo "Deploying the application to the production environment"
-                // Example production deployment command
-                sh 'scp target/your-app.jar user@production-server:/path/to/deploy'
+                echo "Stage: Deploy to Production - Task: Deploy the application to the production environment."
+                echo "Tool: AWS EC2"
+                // Placeholder for actual production deployment command, e.g., sh 'scp target/your-app.jar user@production-server:/path/to/deploy'
             }
             post {
                 failure {
