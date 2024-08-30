@@ -24,7 +24,7 @@ pipeline {
                 always {
                     mail to: "awanishg444@gmail.com",
                          subject: "Unit and Integration Tests - Pipeline Status: ${currentBuild.currentResult}",
-                         body: "The Unit and Integration Tests stage has completed with status: ${currentBuild.currentResult}. Please review the Jenkins logs for more details."
+                         body: "The Unit and Integration Tests stage has completed."
                 }
             }
         }
@@ -51,7 +51,7 @@ pipeline {
                 always {
                     mail to: "awanishg444@gmail.com",
                          subject: "Security Scan - Pipeline Status: ${currentBuild.currentResult}",
-                         body: "The Security Scan stage has completed with status: ${currentBuild.currentResult}. Please review the Jenkins logs for more details."
+                         body: "The Security Scan stage has completed."
                 }
             }
         }
@@ -82,7 +82,6 @@ pipeline {
                 script {
                     echo "Stage: Deploy to Production - Task: Deploy the application to the production environment."
                     echo "Tool: AWS EC2"
-                    // Normally, you'd deploy with: sh 'aws deploy command'
                 }
             }
         }
