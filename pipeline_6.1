@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+        // Stage 1: Build
         stage('Build') {
             steps {
                 script {
@@ -11,6 +12,7 @@ pipeline {
             }
         }
 
+        // Stage 2: Unit and Integration Tests
         stage('Unit and Integration Tests') {
             steps {
                 script {
@@ -19,19 +21,15 @@ pipeline {
                 }
             }
             post {
-                success {
+                always {
                     mail to: "awanishg444@gmail.com",
-                        subject: "Unit and Integration Tests - Pipeline Success",
-                        body: "The Unit and Integration Tests stage completed successfully!"
-                }
-                failure {
-                    mail to: "awanishg444@gmail.com",
-                        subject: "Unit and Integration Tests - Pipeline Failure",
-                        body: "The Unit and Integration Tests stage failed."
+                         subject: "Unit and Integration Tests - Pipeline Status: ${currentBuild.currentResult}",
+                         body: "The Unit and Integration Tests stage has completed with status: ${currentBuild.currentResult}. Please review the Jenkins logs for more details."
                 }
             }
         }
 
+        // Stage 3: Code Analysis
         stage('Code Analysis') {
             steps {
                 script {
@@ -41,6 +39,7 @@ pipeline {
             }
         }
 
+        // Stage 4: Security Scan
         stage('Security Scan') {
             steps {
                 script {
@@ -49,19 +48,15 @@ pipeline {
                 }
             }
             post {
-                success {
+                always {
                     mail to: "awanishg444@gmail.com",
-                        subject: "Security Scan - Pipeline Success",
-                        body: "The Security Scan stage completed successfully!"
-                }
-                failure {
-                    mail to: "awanishg444@gmail.com",
-                        subject: "Security Scan - Pipeline Failure",
-                        body: "The Security Scan stage failed."
+                         subject: "Security Scan - Pipeline Status: ${currentBuild.currentResult}",
+                         body: "The Security Scan stage has completed with status: ${currentBuild.currentResult}. Please review the Jenkins logs for more details."
                 }
             }
         }
 
+        // Stage 5: Deploy to Staging
         stage('Deploy to Staging') {
             steps {
                 script {
@@ -71,6 +66,7 @@ pipeline {
             }
         }
 
+        // Stage 6: Integration Tests on Staging
         stage('Integration Tests on Staging') {
             steps {
                 script {
@@ -80,11 +76,13 @@ pipeline {
             }
         }
 
+        // Stage 7: Deploy to Production
         stage('Deploy to Production') {
             steps {
                 script {
                     echo "Stage: Deploy to Production - Task: Deploy the application to the production environment."
                     echo "Tool: AWS EC2"
+                    // Normally, you'd deploy with: sh 'aws deploy command'
                 }
             }
         }
@@ -93,13 +91,13 @@ pipeline {
     post {
         success {
             mail to: "awanishg444@gmail.com",
-                subject: "Pipeline Success",
-                body: "The pipeline completed successfully!"
+                 subject: "Pipeline Success",
+                 body: "The pipeline completed successfully!"
         }
         failure {
             mail to: "awanishg444@gmail.com",
-                subject: "Pipeline Failure",
-                body: "The pipeline failed."
+                 subject: "Pipeline Failure",
+                 body: "The pipeline failed. Please review the Jenkins logs for more details."
         }
     }
 }
