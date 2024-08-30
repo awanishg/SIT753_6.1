@@ -1,28 +1,12 @@
 pipeline {
     agent any
-    
-    environment {
-        STAGE_NAME = ""
-        BUILD_STATUS = "SUCCESS"
-    }
 
     stages {
-        
         stage('Build') {
             steps {
                 script {
-                    STAGE_NAME = "Build"
-                }
-                echo "Stage: Build - Task: Compile and package the code using a build automation tool."
-                echo "Tool: Maven"
-                // Placeholder for actual build command, e.g., sh 'mvn clean install'
-            }
-            post {
-                failure {
-                    script {
-                        BUILD_STATUS = "FAILURE"
-                    }
-                    echo "Build stage failed"
+                    echo "Stage: Build - Task: Compile and package the code using a build automation tool."
+                    echo "Tool: Maven"
                 }
             }
         }
@@ -30,31 +14,20 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 script {
-                    STAGE_NAME = "Unit and Integration Tests"
+                    echo "Stage: Unit and Integration Tests - Task: Run unit tests to ensure code functions as expected, and run integration tests to ensure different components work together."
+                    echo "Tools: JUnit for unit tests, Selenium for integration tests"
                 }
-                echo "Stage: Unit and Integration Tests - Task: Run unit tests to ensure code functions as expected, and run integration tests to ensure different components work together."
-                echo "Tools: JUnit for unit tests, Selenium for integration tests"
-                // Placeholder for actual test command, e.g., sh 'mvn test'
             }
             post {
                 success {
-                    mail(
-                        to: 'awanishg444@gmail.com',
-                        subject: "Stage ${STAGE_NAME} - ${BUILD_STATUS}",
-                        body: "The ${STAGE_NAME} stage has ${BUILD_STATUS}.",
-                        attachLog: true
-                    )
+                    mail to: "awanishg444@gmail.com",
+                        subject: "Unit and Integration Tests - Pipeline Success",
+                        body: "The Unit and Integration Tests stage completed successfully!"
                 }
                 failure {
-                    script {
-                        BUILD_STATUS = "FAILURE"
-                    }
-                    mail(
-                        to: 'awanishg444@gmail.com',
-                        subject: "Stage ${STAGE_NAME} - ${BUILD_STATUS}",
-                        body: "The ${STAGE_NAME} stage has failed. Please check the attached logs.",
-                        attachLog: true
-                    )
+                    mail to: "awanishg444@gmail.com",
+                        subject: "Unit and Integration Tests - Pipeline Failure",
+                        body: "The Unit and Integration Tests stage failed."
                 }
             }
         }
@@ -62,18 +35,8 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 script {
-                    STAGE_NAME = "Code Analysis"
-                }
-                echo "Stage: Code Analysis - Task: Analyze the code to ensure it meets industry standards."
-                echo "Tool: SonarQube"
-                // Placeholder for actual code analysis command, e.g., sh 'mvn sonar:sonar'
-            }
-            post {
-                failure {
-                    script {
-                        BUILD_STATUS = "FAILURE"
-                    }
-                    echo "Code Analysis stage failed"
+                    echo "Stage: Code Analysis - Task: Analyze the code to ensure it meets industry standards."
+                    echo "Tool: SonarQube"
                 }
             }
         }
@@ -81,31 +44,20 @@ pipeline {
         stage('Security Scan') {
             steps {
                 script {
-                    STAGE_NAME = "Security Scan"
+                    echo "Stage: Security Scan - Task: Perform a security scan to identify vulnerabilities."
+                    echo "Tool: OWASP ZAP"
                 }
-                echo "Stage: Security Scan - Task: Perform a security scan to identify vulnerabilities."
-                echo "Tool: OWASP ZAP"
-                // Placeholder for actual security scan command, e.g., sh 'zap-cli quick-scan --self-contained --start-options "-config api.disablekey=true" http://your-app-url'
             }
             post {
                 success {
-                    mail(
-                        to: 'awanishg444@gmail.com',
-                        subject: "Stage ${STAGE_NAME} - ${BUILD_STATUS}",
-                        body: "The ${STAGE_NAME} stage has ${BUILD_STATUS}.",
-                        attachLog: true
-                    )
+                    mail to: "awanishg444@gmail.com",
+                        subject: "Security Scan - Pipeline Success",
+                        body: "The Security Scan stage completed successfully!"
                 }
                 failure {
-                    script {
-                        BUILD_STATUS = "FAILURE"
-                    }
-                    mail(
-                        to: 'awanishg444@gmail.com',
-                        subject: "Stage ${STAGE_NAME} - ${BUILD_STATUS}",
-                        body: "The ${STAGE_NAME} stage has failed. Please check the attached logs.",
-                        attachLog: true
-                    )
+                    mail to: "awanishg444@gmail.com",
+                        subject: "Security Scan - Pipeline Failure",
+                        body: "The Security Scan stage failed."
                 }
             }
         }
@@ -113,18 +65,8 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 script {
-                    STAGE_NAME = "Deploy to Staging"
-                }
-                echo "Stage: Deploy to Staging - Task: Deploy the application to a staging server."
-                echo "Tool: AWS EC2"
-                // Placeholder for actual deployment command, e.g., sh 'scp target/your-app.jar user@staging-server:/path/to/deploy'
-            }
-            post {
-                failure {
-                    script {
-                        BUILD_STATUS = "FAILURE"
-                    }
-                    echo "Deploy to Staging stage failed"
+                    echo "Stage: Deploy to Staging - Task: Deploy the application to a staging server."
+                    echo "Tool: AWS EC2"
                 }
             }
         }
@@ -132,18 +74,8 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 script {
-                    STAGE_NAME = "Integration Tests on Staging"
-                }
-                echo "Stage: Integration Tests on Staging - Task: Run integration tests on the staging environment."
-                echo "Tools: JUnit, Selenium"
-                // Placeholder for actual integration tests command, e.g., sh 'mvn verify -Pstaging'
-            }
-            post {
-                failure {
-                    script {
-                        BUILD_STATUS = "FAILURE"
-                    }
-                    echo "Integration Tests on Staging stage failed"
+                    echo "Stage: Integration Tests on Staging - Task: Run integration tests on the staging environment."
+                    echo "Tools: JUnit, Selenium"
                 }
             }
         }
@@ -151,26 +83,23 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 script {
-                    STAGE_NAME = "Deploy to Production"
-                }
-                echo "Stage: Deploy to Production - Task: Deploy the application to the production environment."
-                echo "Tool: AWS EC2"
-                // Placeholder for actual production deployment command, e.g., sh 'scp target/your-app.jar user@production-server:/path/to/deploy'
-            }
-            post {
-                failure {
-                    script {
-                        BUILD_STATUS = "FAILURE"
-                    }
-                    echo "Deploy to Production stage failed"
+                    echo "Stage: Deploy to Production - Task: Deploy the application to the production environment."
+                    echo "Tool: AWS EC2"
                 }
             }
         }
     }
 
     post {
-        always {
-            echo "Pipeline completed. Build status: ${BUILD_STATUS}"
+        success {
+            mail to: "awanishg444@gmail.com",
+                subject: "Pipeline Success",
+                body: "The pipeline completed successfully!"
+        }
+        failure {
+            mail to: "awanishg444@gmail.com",
+                subject: "Pipeline Failure",
+                body: "The pipeline failed."
         }
     }
 }
