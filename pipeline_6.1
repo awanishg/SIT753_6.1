@@ -28,6 +28,7 @@ pipeline {
                          subject: "Unit and Integration Tests - Pipeline Status: ${currentBuild.currentResult}",
                          body: "The Unit and Integration Tests stage has completed."
                          attachLog: true
+                         attachmentsPattern: 'build-log.txt'
                 }
             }
         }
@@ -56,6 +57,7 @@ pipeline {
                          subject: "Security Scan - Pipeline Status: ${currentBuild.currentResult}",
                          body: "The Security Scan stage has completed."
                          attachLog: true
+                         attachmentsPattern: 'build-log.txt'
                 }
             }
         }
@@ -103,6 +105,7 @@ pipeline {
                  subject: "Pipeline Failure",
                  body: "The pipeline failed. Please review the Jenkins logs for more details."
                  attachLog: true
+                 attachmentsPattern: 'build-log.txt'
         }
     }
 }
