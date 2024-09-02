@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    triggers {
+        pollSCM('H/5 * * * *') // this will check for new script after 5 minutes if there is a new script it will be riggered automatically
+    }
     stages {
         // Stage 1: Build
         stage('Build') {
@@ -25,6 +27,7 @@ pipeline {
                     mail to: "awanishg444@gmail.com",
                          subject: "Unit and Integration Tests - Pipeline Status: ${currentBuild.currentResult}",
                          body: "The Unit and Integration Tests stage has completed."
+                         attachLog: true
                 }
             }
         }
@@ -52,6 +55,7 @@ pipeline {
                     mail to: "awanishg444@gmail.com",
                          subject: "Security Scan - Pipeline Status: ${currentBuild.currentResult}",
                          body: "The Security Scan stage has completed."
+                         attachLog: true
                 }
             }
         }
@@ -92,11 +96,13 @@ pipeline {
             mail to: "awanishg444@gmail.com",
                  subject: "Pipeline Success",
                  body: "The pipeline completed successfully!"
+                 attachLog: true
         }
         failure {
             mail to: "awanishg444@gmail.com",
                  subject: "Pipeline Failure",
                  body: "The pipeline failed. Please review the Jenkins logs for more details."
+                 attachLog: true
         }
     }
 }
