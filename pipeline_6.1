@@ -1,8 +1,10 @@
 pipeline {
     agent any
+    
     triggers {
-        pollSCM('H/5 * * * *') // this will check for new script after 5 minutes if there is a new script it will be riggered automatically
+        pollSCM('H/5 * * * *') // This will check for new commits every 5 minutes and trigger the pipeline if changes are detected
     }
+
     stages {
         // Stage 1: Build
         stage('Build') {
@@ -24,11 +26,16 @@ pipeline {
             }
             post {
                 always {
+                    // Send a basic notification with `mail`
                     mail to: "awanishg444@gmail.com",
                          subject: "Unit and Integration Tests - Pipeline Status: ${currentBuild.currentResult}",
                          body: "The Unit and Integration Tests stage has completed."
-                         attachLog: true
-                         attachmentsPattern: 'build-log.txt'
+
+                    // Send detailed log information with `emailext`
+                    emailext attachLog: true,
+                             body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
+                             recipientProviders: [developers(), requestor()],
+                             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
                 }
             }
         }
@@ -53,11 +60,16 @@ pipeline {
             }
             post {
                 always {
+                    // Send a basic notification with `mail`
                     mail to: "awanishg444@gmail.com",
                          subject: "Security Scan - Pipeline Status: ${currentBuild.currentResult}",
                          body: "The Security Scan stage has completed."
-                         attachLog: true
-                         attachmentsPattern: 'build-log.txt'
+
+                    // Send detailed log information with `emailext`
+                    emailext attachLog: true,
+                             body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
+                             recipientProviders: [developers(), requestor()],
+                             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
                 }
             }
         }
@@ -95,17 +107,26 @@ pipeline {
 
     post {
         success {
+            // Send a success notification with `mail`
             mail to: "awanishg444@gmail.com",
                  subject: "Pipeline Success",
                  body: "The pipeline completed successfully!"
-                 attachLog: true
+
+            // Send detailed log information with `emailext`
+            emailext attachLog: true,
+                     body: "Pipeline Success: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
+                     subject: "Jenkins Build SUCCESS: Job ${env.JOB_NAME}"
         }
         failure {
+            // Send a failure notification with `mail`
             mail to: "awanishg444@gmail.com",
                  subject: "Pipeline Failure",
                  body: "The pipeline failed. Please review the Jenkins logs for more details."
-                 attachLog: true
-                 attachmentsPattern: 'build-log.txt'
+
+            // Send detailed log information with `emailext`
+            emailext attachLog: true,
+                     body: "Pipeline Failure: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
+                     subject: "Jenkins Build FAILURE: Job ${env.JOB_NAME}"
         }
     }
 }
