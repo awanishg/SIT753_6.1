@@ -33,6 +33,7 @@ pipeline {
 
                     // Send detailed log information with `emailext`
                     emailext attachLog: true,
+                             to: "awanishg444@gmail.com",
                              body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
                              recipientProviders: [developers(), requestor()],
                              subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
@@ -67,6 +68,7 @@ pipeline {
 
                     // Send detailed log information with `emailext`
                     emailext attachLog: true,
+                             to: "awanishg444@gmail.com",
                              body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
                              recipientProviders: [developers(), requestor()],
                              subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
@@ -114,6 +116,7 @@ pipeline {
 
             // Send detailed log information with `emailext`
             emailext attachLog: true,
+                     to: "awanishg444@gmail.com",
                      body: "Pipeline Success: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
                      subject: "Jenkins Build SUCCESS: Job ${env.JOB_NAME}"
         }
@@ -125,6 +128,7 @@ pipeline {
 
             // Send detailed log information with `emailext`
             emailext attachLog: true,
+                     to: "awanishg444@gmail.com",
                      body: "Pipeline Failure: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
                      subject: "Jenkins Build FAILURE: Job ${env.JOB_NAME}"
         }
