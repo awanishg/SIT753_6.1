@@ -49,7 +49,7 @@ pipeline {
                 success {
                     // Send a success notification with `mail`   
                     emailext attachLog: true,
-                             subject: "Pipeline sucess - Unit and Integration Tests",
+                             subject: "Pipeline sucess - Security Scan",
                              to: "awanishg444@gmail.com",
                              body: "The Unit and Integration Tests stage failed. Please review the attached log for details."
                
