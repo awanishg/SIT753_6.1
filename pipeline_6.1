@@ -24,21 +24,7 @@ pipeline {
                     echo "Tools: JUnit for unit tests, Selenium for integration tests"
                 }
             }
-            post {
-                always {
-                    // Send a basic notification with `mail`
-                    mail to: "awanishg444@gmail.com",
-                         subject: "Unit and Integration Tests - Pipeline Status: ${currentBuild.currentResult}",
-                         body: "The Unit and Integration Tests stage has completed."
-
-                    // Send detailed log information with `emailext`
-                    emailext attachLog: true,
-                             to: "awanishg444@gmail.com",
-                             body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
-                             recipientProviders: [developers(), requestor()],
-                             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-                }
-            }
+            
         }
 
         // Stage 3: Code Analysis
@@ -59,20 +45,20 @@ pipeline {
                     echo "Tool: OWASP ZAP"
                 }
             }
-            post {
-                always {
-                    // Send a basic notification with `mail`
+             post {
+                success {
+                    // Send a success notification with `mail`
                     mail to: "awanishg444@gmail.com",
-                         subject: "Security Scan - Pipeline Status: ${currentBuild.currentResult}",
-                         body: "The Security Scan stage has completed."
-
-                    // Send detailed log information with `emailext`
-                    emailext attachLog: true,
-                             to: "awanishg444@gmail.com",
-                             body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
-                             recipientProviders: [developers(), requestor()],
-                             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+                         subject: "Pipeline Success - Security Scan",
+                         body: "The Security Scan stage completed successfully!"
                 }
+                failure {
+                    // Send a failure notification with `mail`
+                    mail to: "awanishg444@gmail.com",
+                         subject: "Pipeline Failure - Security Scan",
+                         body: "The Security Scan stage failed. Please review the Jenkins logs for more details."
+                }
+          
             }
         }
 
@@ -108,29 +94,11 @@ pipeline {
     }
 
     post {
-        success {
-            // Send a success notification with `mail`
-            mail to: "awanishg444@gmail.com",
-                 subject: "Pipeline Success",
-                 body: "The pipeline completed successfully!"
-
-            // Send detailed log information with `emailext`
-            emailext attachLog: true,
+        always {
+            emailext attachLog: true, 
+                     subject: "Pipeline Completed: ${JOB_NAME} - Build #${BUILD_NUMBER}", 
                      to: "awanishg444@gmail.com",
-                     body: "Pipeline Success: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
-                     subject: "Jenkins Build SUCCESS: Job ${env.JOB_NAME}"
-        }
-        failure {
-            // Send a failure notification with `mail`
-            mail to: "awanishg444@gmail.com",
-                 subject: "Pipeline Failure",
-                 body: "The pipeline failed. Please review the Jenkins logs for more details."
-
-            // Send detailed log information with `emailext`
-            emailext attachLog: true,
-                     to: "awanishg444@gmail.com",
-                     body: "Pipeline Failure: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}",
-                     subject: "Jenkins Build FAILURE: Job ${env.JOB_NAME}"
+                     body: "Pipeline execution for ${JOB_NAME} - Build #${BUILD_NUMBER} has completed. Please find the attached log file for details."
         }
     }
 }
