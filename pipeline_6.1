@@ -51,6 +51,10 @@ pipeline {
                     mail to: "awanishg444@gmail.com",
                          subject: "Pipeline Success - Security Scan",
                          body: "The Security Scan stage completed successfully!"
+                    emailext attachLog: true, 
+                     subject: "Pipeline Completed: ${JOB_NAME} - Build #${BUILD_NUMBER}", 
+                     to: "awanishg444@gmail.com",
+                     body: "Pipeline execution for ${JOB_NAME} - Build #${BUILD_NUMBER} has completed. Please find the attached log file for details."     
                 }
                 failure {
                     // Send a failure notification with `mail`
