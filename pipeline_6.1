@@ -48,14 +48,16 @@ pipeline {
              post {
                 success {
                     // Send a success notification with `mail`
-                    //mail to: "awanishg444@gmail.com",
-                      //   subject: "Pipeline Success - Security Scan",
-                        // body: "The Security Scan stage completed successfully!"
+                    mail to: "awanishg444@gmail.com",
+                         subject: "Pipeline Success - Security Scan",
+                         body: "The Security Scan stage completed successfully!"
+                         ttachLog: true,
+                         attachmentsPattern: 'build.log'
                     
-                    emailext attachLog: true,
-                             subject: "Pipeline sucess - Unit and Integration Tests",
-                             to: "awanishg444@gmail.com",
-                             body: "The Unit and Integration Tests stage failed. Please review the attached log for details."
+                    //emailext attachLog: true,
+                      //       subject: "Pipeline sucess - Unit and Integration Tests",
+                        //     to: "awanishg444@gmail.com",
+                          //   body: "The Unit and Integration Tests stage failed. Please review the attached log for details."
                
                 }
                 failure {
