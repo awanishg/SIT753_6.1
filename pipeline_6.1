@@ -51,7 +51,7 @@ pipeline {
                     mail to: "awanishg444@gmail.com",
                          subject: "Pipeline Success - Security Scan",
                          body: "The Security Scan stage completed successfully!"
-                         ttachLog: true,
+                         attachLog: true,
                          attachmentsPattern: 'build.log'
                     
                     //emailext attachLog: true,
