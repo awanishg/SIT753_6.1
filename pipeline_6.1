@@ -100,14 +100,14 @@ pipeline {
         success {
             emailext attachLog: true,
                 to: "awanishg444@gmail.com",
-                body: "Pipeline Success: BUILD SUCCESS,
-                subject: "Jenkins Build SUCCESS: Please find log attach in email"
+                subject: "Pipeline Success: BUILD SUCCESS",
+                body: "Jenkins Build SUCCESS: Please find log attach in email"
         }
         failure {
             emailext attachLog: true,
                 to: "awanishg444@gmail.com",
-                body: "Pipeline Failure: BUILD FAILED,
-                subject: "Jenkins Build FAILURE: Please find log attach in email"
+                subject: "Pipeline Failure: BUILD FAILED",
+                body: "Jenkins Build FAILURE: Please find log attach in email"
         }
     }
      
