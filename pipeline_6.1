@@ -47,12 +47,7 @@ pipeline {
             }
              post {
                 success {
-                    // Send a success notification with `mail`
-                    //mail to: "awanishg444@gmail.com",
-                         //subject: "Pipeline Success - Security Scan",
-                         //body: "The Security Scan stage completed successfully!"
-                         
-                    
+                    // Send a success notification with `mail`   
                     emailext attachLog: true,
                              subject: "Pipeline sucess - Unit and Integration Tests",
                              to: "awanishg444@gmail.com",
@@ -61,7 +56,8 @@ pipeline {
                 }
                 failure {
                     // Send a failure notification with `mail`
-                    mail to: "awanishg444@gmail.com",
+                    emailext attachLog: true,
+                        to: "awanishg444@gmail.com",
                          subject: "Pipeline Failure - Security Scan",
                          body: "The Security Scan stage failed. Please review the Jenkins logs for more details."
                 }
@@ -101,11 +97,17 @@ pipeline {
     }
 
     post {
-        always {
-            emailext attachLog: true, 
-                     subject: "Pipeline Completed: ${JOB_NAME} - Build #${BUILD_NUMBER}", 
-                     to: "awanishg444@gmail.com",
-                     body: "Pipeline execution for ${JOB_NAME} - Build #${BUILD_NUMBER} has completed. Please find the attached log file for details."
+        success {
+            emailext attachLog: true,
+                to: "awanishg444@gmail.com",
+                body: "Pipeline Success: BUILD SUCCESS,
+                subject: "Jenkins Build SUCCESS: Please find log attach in email"
+        }
+        failure {
+            emailext attachLog: true,
+                to: "awanishg444@gmail.com",
+                body: "Pipeline Failure: BUILD FAILED,
+                subject: "Jenkins Build FAILURE: Please find log attach in email"
         }
     }
-}
+     
